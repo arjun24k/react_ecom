@@ -1,7 +1,17 @@
 .App {
   text-align: center;
 }
+a{
+  text-decoration:none;
+  color:black;
+}
+body{
+  padding:20px 60px;
+}
 
+*{
+  box-sizing: border-box;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;

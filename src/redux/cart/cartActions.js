@@ -6,7 +6,21 @@ export const toggleCartHidden = () =>{
 
 export const addItem = (item) =>{
     return {
-        type:'ADD_ITEM',
+        type:'ADD_ITEM_OR_INCREMENT',
+        payload:item
+    }
+}
+
+export const removeItem = (item) =>{
+    return {
+        type:'CLEAR_ITEM_FROM_CART',
+        payload:item
+    }
+}
+
+export const decrementQuantity = (item) =>{
+    return {
+        type:'DECREMENT_ITEM_QUANTITY',
         payload:item
     }
 }

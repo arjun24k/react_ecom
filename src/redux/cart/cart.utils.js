@@ -13,3 +13,21 @@ export const addItemToCart = (cartItems,newCartItem)=>{
     }
     return [...cartItems,{...newCartItem,quantity:1}];
 }
+
+export const removeItemFromCart = (cartItems,cartItemToRemove) =>{
+    return cartItems.filter(cartItem=>cartItem.id!==cartItemToRemove.id);
+}
+
+export const decrementItemQuantity = (cartItems,itemToDecrement) =>{
+   
+    if(itemToDecrement.quantity<=1){
+    return cartItems.filter(cartItem=>cartItem.id!==itemToDecrement.id);
+    }
+    return cartItems.map(
+        cartItem => (
+            cartItem.id === itemToDecrement.id
+            ?{...cartItem,quantity:itemToDecrement.quantity-1}
+            :cartItem
+        )
+    )
+}

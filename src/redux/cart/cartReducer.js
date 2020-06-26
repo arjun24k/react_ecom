@@ -1,4 +1,4 @@
-import { addItemToCart } from "./cart.utils";
+import { addItemToCart, removeItemFromCart,decrementItemQuantity } from "./cart.utils";
 
 const INTITIAL_STATE={
     hidden:null,
@@ -12,10 +12,20 @@ const cartReducer = (state=INTITIAL_STATE,action)=>{
                 ...state,
                 hidden:!state.hidden
             }
-        case 'ADD_ITEM':
+        case 'ADD_ITEM_OR_INCREMENT':
             return {
                 ...state,
                 cartItems:addItemToCart(state.cartItems,action.payload)//[...state.cartItems,action.payload]
+            }
+        case 'CLEAR_ITEM_FROM_CART':
+            return {
+                ...state,
+                cartItems:removeItemFromCart(state.cartItems,action.payload)
+            }
+        case 'DECREMENT_ITEM_QUANTITY':
+            return {
+                ...state,
+                cartItems:decrementItemQuantity(state.cartItems,action.payload)
             }
         default:
             return state;

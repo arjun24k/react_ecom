@@ -1,27 +1,15 @@
 import React from 'react';
-import SHOP_DATA from './shop.data.jsx'
-import CollectionPreview from '../PreviewCollection/collectionPreview';
+import CollectionOverview from '../CollectionOverview/collectionOverview.jsx';
+import { Route } from 'react-router-dom';
+import CategoryPage from '../Category/category.jsx';
 
-class ShopPage extends React.Component{
-    constructor(props){
-        super(props);
-        this.state={
-            collections:SHOP_DATA
-        }
-    }
-
-    render(){
-        const {collections} = this.state;
-        return (
-            <div>
-            {
-                collections.map(({id, ...otherCollectionProps}) =>{
-                    return <CollectionPreview key={id} {...otherCollectionProps}/>
-                })
-            }
+const ShopPage = ({match}) =>{
+    return (
+        <div className='shop-page'>
+            <Route exact path={`${match.path}`} component={CollectionOverview}/>
+            <Route path={`${match.path}/:categoryId`} component={CategoryPage}/>{/* identifiers aree available as props in the child componenet.Based on this u can set respective options in child.Here we got to the respective category based on categoryId */}
         </div>
-        );
-    }
+    );
 }
 
 export default ShopPage;

@@ -1,7 +1,6 @@
 import React from 'react'
-import {Link} from "react-router-dom";
 import {ReactComponent as Logo} from '../assets/crown.svg';
-import './headerComponent.styles.scss'
+//import './headerComponent.styles.scss'
 import {auth} from '../firebase/firebase.util'
 import { connect } from "react-redux";
 import CartIcon from '../CartIcon/cartIcon';
@@ -9,8 +8,36 @@ import CartDropdown from '../CartDropdown/cartDropdown';
 import { selectCurrentUser } from '../redux/user/user.selectors';
 import { selectToggleHidden } from '../redux/cart/cart.selectors';
 import {createStructuredSelector} from 'reselect'
+import {HeaderContainer,LogoContainer,OptionsContainer,OptionLink} from './header.styles';
 
 const Header = ({currentUser,hidden}) => (
+    <HeaderContainer>
+        <LogoContainer to="/" >
+            <Logo />
+        </LogoContainer>
+        <OptionsContainer>
+                <OptionLink to='/shop'>
+                    SHOP
+                </OptionLink>
+                <OptionLink to='/shop'>
+                    CONTACT
+                </OptionLink>
+                {
+                    currentUser
+                    ?<OptionLink as='div' onClick={()=>auth.signOut()}>SIGN OUT</OptionLink>
+                    :<OptionLink to='/signin'>SIGN IN</OptionLink>
+                }
+                <CartIcon/>
+                {
+                    hidden
+                    ?<CartDropdown/>
+                    :null
+                }                
+        </OptionsContainer>
+    </HeaderContainer>
+);
+
+/* const Header = ({currentUser,hidden}) => (
     <div className='header'>
         <Link to="/" className='logo-container'>
             <Logo className='logo'/>
@@ -35,8 +62,7 @@ const Header = ({currentUser,hidden}) => (
                 }                
         </div>
     </div>
-);
-
+); */
 /* const mapStateToProps = state => {
     return {
         currentUser:selectCurrentUser(state),

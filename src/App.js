@@ -34,7 +34,6 @@ class App extends React.Component {
         }
         else
           this.props.setCurrentUser({ userAuth });
-       
       }
     )
   }
@@ -69,7 +68,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = (state) =>{
   return {
-    currentUser:selectCurrentUser(state)
+    currentUser:selectCurrentUser(state),
   };
 }
 export default connect(mapStateToProps,mapDispatchToProps)(App);

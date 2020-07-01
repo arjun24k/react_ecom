@@ -6,13 +6,13 @@ import CollectionItem from '../CollectionItem/collectionItem';
 import { selectCategory } from '../redux/shop/shopSelector';
 
 const CategoryPage = ({collection}) =>{
-    const {title,items} = collection;
+    const {title,item} = collection;
     return(
         <div className='category-page'>
             <h2 className='title'>{title}</h2>
             <div className='items'>
                 {
-                  items.map(
+                  item.map(
                       item=><CollectionItem key={item.id} item={item}/>
                   )  
                 }

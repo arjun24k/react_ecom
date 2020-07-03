@@ -24,3 +24,9 @@ export const decrementQuantity = (item) =>{
         payload:item
     }
 }
+
+export const clearCart = () =>{
+    return {
+        type:'CLEAR_CART'
+    }
+}

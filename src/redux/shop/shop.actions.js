@@ -1,13 +1,43 @@
-export const setShopData=shopData =>{
+import { firestore } from "firebase"
+import { loadData } from "../../firebase/firebase.util"
+
+export const fetchCollectionsStart=() =>{
     return {
-        type:'SET_SHOP_DATA',
-        payload:shopData
+        type:'FETCH_COLLECTIONS_START'
     }
 }
 
-export const setIsLoading = (value) =>{
+export const fetchCollectionsFaliure = (error) =>{
     return {
-        type:'SET_IS_LOADING',
-        payload:value
+        type:'FETCH_COLLECTIONS_FALIURE',
+        payload:error
     }
 }
+
+export const fetchCollectionsSuccess = (collectionsData) =>{
+    return {
+        type:'FETCH_COLLECTIONS_SUCCESS',
+        payload:collectionsData
+    }
+}
+
+export const fetchCollectionsStartAsync=() =>{
+    console.log('aaaaaaaaaaaaaaaaaa')
+    return dispatch =>{
+        console.log('aaaaaaaaaaaaaaaaaa')
+        console.log(dispatch);
+        dispatch(fetchCollectionsStart());
+        firestore().collection('collections').get().then(
+            snapshot =>{
+            const collectionsMap = loadData(snapshot);
+            dispatch(fetchCollectionsSuccess(collectionsMap));
+           }
+       ).catch(
+           error =>
+           dispatch(fetchCollectionsFaliure(error))
+       );
+    }
+}
+
+
+

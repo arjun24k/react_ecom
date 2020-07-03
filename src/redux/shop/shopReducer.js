@@ -2,24 +2,31 @@
 
 const INTITAL_STATE={
     collections:null,
-    isLoading:true
+    isLoading:false,
+    errorMsg:undefined
 }
 
 export const shopReducer = (state=INTITAL_STATE,action) =>{
     
     switch (action.type) {
-        case 'SET_SHOP_DATA':{
-            console.log(action.payload);console.log('--------------------------')
+        case 'FETCH_COLLECTIONS_START':{
             return {
                 ...state,
+                isLoading:true
+            }
+        }
+        case 'FETCH_COLLECTIONS_SUCCESS':{
+            return {
+                ...state,
+                isLoading:false,
                 collections:action.payload
             }
         }
-        case 'SET_IS_LOADING':{
-            console.log(!state.isLoading)
+        case 'FETCH_COLLECTIONS_FALIURE':{
             return {
                 ...state,
-                isLoading:action.payload
+                isLoading:false,
+                errorMsg:action.payload
             }
         }
         default:

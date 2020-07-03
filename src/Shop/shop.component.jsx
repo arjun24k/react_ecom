@@ -1,37 +1,28 @@
 import React from 'react';
-import CollectionOverview from '../CollectionOverview/collectionOverview.jsx';
 import { Route } from 'react-router-dom';
-import CategoryPage from '../Category/category.jsx';
-import { firestore } from 'firebase';
-import { loadData } from '../firebase/firebase.util.js';
-import { setShopData ,setIsLoading} from '../redux/shop/shop.actions.js';
-import WithSpinner from '../WithSpinner/withSpinner.jsx';
+import { fetchCollectionsStart} from '../redux/shop/shop.actions.js';
 import { connect } from 'react-redux';
-
+import CollectionsOverviewContainer from '../CollectionOverview/collectionOverview.container.jsx';
+import CategoryPageContainer from '../Category/category.container.jsx';
+/* 
 const CollectionOverviewWithSpinner = WithSpinner(CollectionOverview);
 const CategoryPageWithSpinner = WithSpinner(CategoryPage);
-
+ */
 class ShopPage extends React.Component{
 
   
-    unSubscribeFromSnapshot=null;
     componentDidMount(){
-        console.log('ddddddddddddddddd');
-        firestore().collection('collections').get().then(
-             snapshot =>{
-             const collectionsMap = loadData(snapshot);
-             this.props.setShopData(collectionsMap);
-            this.props.setIsLoading(false);
-            }
-        );
+        console.log('a');
+    const {fetchCollectionsStart} = this.props;
+      fetchCollectionsStart();
         
     }
     
     render(){
         return (
             <div className='shop-page'>
-                <Route exact path={`${this.props.match.path}`} render={(props) =><CollectionOverviewWithSpinner isLoading={this.props.isLoading} {...props}/>}/>
-                <Route path={`${this.props.match.path}/:categoryId`} render={(props) =><CategoryPageWithSpinner isLoading={this.props.isLoading} {...props}/>}/>{/* identifiers aree available as props in the child componenet.Based on this u can set respective options in child.Here we got to the respective category based on categoryId */}
+                <Route exact path={`${this.props.match.path}`} component={CollectionsOverviewContainer}/>{//(props) =><CategoryPageWithSpinner isLoading={!this.props.isCollectionsLoaded} {...props}/>//(props) =><CollectionOverviewWithSpinner isLoading={this.props.isLoading} {...props}/>}
+                <Route path={`${this.props.match.path}/:categoryId`} component={CategoryPageContainer}/>/* identifiers aree available as props in the child componenet.Based on this u can set respective options in child.Here we got to the respective category based on categoryId */}
             </div>
         );
     }
@@ -39,17 +30,16 @@ class ShopPage extends React.Component{
 
 const mapDispatchToProps = (dispatch) =>{
     return {
-        setShopData:shopData => dispatch(setShopData(shopData)),
-        setIsLoading:value => dispatch(setIsLoading(value))
+        fetchCollectionsStart:()=>dispatch(fetchCollectionsStart())
     }
 }
 
-const mapStateToProps = state =>{
+/* const mapStateToProps = state =>{
     return {
-        ...state,
-        isLoading:state.shop.isLoading
+        isLoading:selectIsLoading(state),
+        isCollectionsLoaded:selectIsCollectionsLoaded(state)
     }
 } 
+ */
 
-
-export default connect(mapStateToProps,mapDispatchToProps)(ShopPage)
+export default connect(null,mapDispatchToProps)(ShopPage)

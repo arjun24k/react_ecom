@@ -1,12 +1,26 @@
 const INTITAL_STATE = {
-    currentUser:null
+    currentUser:null,
+    error:null
 }
 const userReducer = (state=INTITAL_STATE,action) => {
-switch (action.type){
-    case 'SET_CURRENT_USER':
+    console.log(action.type)
+    switch (action.type){
+    case 'SIGN_IN_SUCCESS':
         return {
             ...state,
-            currentUser:action.payload
+            currentUser:action.payload,
+            error:null
+        }
+    case 'SIGN_OUT_SUCCESS':
+        return {
+            ...state,
+            currentUser:null
+        }
+    case 'SIGN_IN_FALIURE':
+    case 'SIGN_OUT_FALIURE':
+        return {
+            ...state,
+            error:action.payload
         }
     default:
         return state;
@@ -14,3 +28,9 @@ switch (action.type){
 }
 
 export default userReducer;
+
+    /* case 'SET_CURRENT_USER':
+        return {
+            ...state,
+            currentUser:action.payload
+        } */

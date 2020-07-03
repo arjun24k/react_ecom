@@ -20,3 +20,12 @@ export const selectCategory= categoryUrlParam =>createSelector(
         collections?collections[categoryUrlParam]:null
 );
 
+export const selectIsLoading = createSelector(
+    [selectShop],
+    shop =>shop.isLoading
+)
+
+export const selectIsCollectionsLoaded = createSelector(
+    [selectShop],
+    shop => !!shop.collections
+)

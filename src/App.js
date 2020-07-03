@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import HomePage from './HomePage/homepage.component';
@@ -7,18 +7,22 @@ import Header from './HeaderComponent/headerComponent';
 import SignInAndSignUpPage from './Authentication/signInSignUp';
 import 'firebase/firestore'
 import { connect } from 'react-redux';
-import { googleSignInStart, checkUserSession } from './redux/user/user.actions';
+import { checkUserSession } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
 import Checkout from './Checkout/CheckoutPage/checkout';
 
-class App extends React.Component {
+const App = ({currentUser,checkUserSession}) => {
  
+  useEffect(()=>{
+    checkUserSession();
+  },[checkUserSession])
 
-  unsubscribeFromAuth = null;
 
+  //unsubscribeFromAuth = null;
+/* 
   componentDidMount() {
     this.props.checkUserSession()
-    /* this.unsubscribeFromAuth = auth.onAuthStateChanged(
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(
       async (userAuth) => {
         if (userAuth) {
           const userRef = await createUserProfileDocument(userAuth);
@@ -35,8 +39,8 @@ class App extends React.Component {
         else
           this.props.setCurrentUser({ userAuth });
       }
-    ) */
-  }
+    )
+  } */
 /* 
   componentWillUnmount() {
     this.unsubscribeFromAuth();
@@ -44,7 +48,7 @@ class App extends React.Component {
 
  */
 
-  render() {
+  
     return (
       <div>
         <Header />
@@ -52,11 +56,11 @@ class App extends React.Component {
           <Route exact path='/' component={HomePage} />
           <Route path='/shop' component={ShopPage} />
           <Route exact path='/checkout' component={Checkout}/>
-          <Route path='/signin' render={()=>this.props.currentUser?<Redirect to='/'/>:<SignInAndSignUpPage/>}/>
+          <Route path='/signin' render={()=>currentUser?<Redirect to='/'/>:<SignInAndSignUpPage/>}/>
         </Switch>
       </div>
     );
-  }
+  
 
 
 }
